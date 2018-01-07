@@ -19,6 +19,22 @@ export class StorageService {
     return localStorage.getItem('login');
   }
 
+  getUserId(): number {
+    if (this.getLogin() && this.getLogin().length) {
+      return JSON.parse(this.getLogin())['userId'];
+    }
+
+    return 0;
+  }
+
+  getUserLanguage(): string {
+    if (this.getLogin() && this.getLogin().length) {
+      return JSON.parse(this.getLogin())['userLanguage'];
+    }
+
+    return '';
+  }
+
   delete(key: string): void {
     localStorage.removeItem(key);
   }

@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title *ngIf="list">{{ list.name }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="items">
+    <ion-list>
+      <ion-item-sliding #slidingItem *ngFor="let item of items; let i = index; trackBy: trackByFn">
+        <ion-item>
+          <h2>{{ item.item.word }}</h2>
+          <p>{{ item.item.translation }}</p>
+        </ion-item>
+        <ion-item-options slide="left">
+          <button ion-button color="primary" (click)="toEditWord(item.item, slidingItem)">
+            <ion-icon name="create"></ion-icon>
+            Edit
+          </button>
+          <button ion-button color="danger" (click)="deleteWord(item.item.id, i, slidingItem)">
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </div>
+
+  <button ion-button full center class="add-word-btn" (click)="toAddWord()">Add Word</button>
+</ion-content>

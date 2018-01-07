@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Account</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngIf="user else userLoading">
+    <h1 class="text-center">{{ user.username ? user.username : user.email }}</h1>
+
+    <ion-list inset>
+      <ion-item>
+        <ion-label floating>Email</ion-label>
+        <ion-input type="text" [(ngModel)]="user.email" (input)="setState()">{{ user.email }}</ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Username</ion-label>
+        <ion-input type="text" [(ngModel)]="user.username" (input)="setState()">{{ user.username }}</ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Langauge</ion-label>
+        <ion-select [(ngModel)]="user.language" (ionChange)="setState()">
+          <ion-option *ngFor="let language of languages" [value]="language">{{ language }}</ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+    <button ion-button full round *ngIf="dirty" (click)="onUpdate()">Update</button>
+  </div>
+
+  <hr />
+
+  <button ion-button full round color="danger" class="logout-btn" (click)="onLogout()">Logout</button>
+  <ng-template #userLoading>{{ loading.present() }}</ng-template>
+</ion-content>

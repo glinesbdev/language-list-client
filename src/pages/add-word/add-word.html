@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{ editing ? 'Edit' : 'Add' }} Word</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label floating>Word</ion-label>
+      <ion-input type="text" [(ngModel)]="word"></ion-input>
+    </ion-item>
+    <button ion-button small (click)="translate(word)" *ngIf="word">Translate</button>    
+    <ion-item>
+      <ion-label floating>Translation</ion-label>
+      <ion-input type="text" [(ngModel)]="translation"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Context</ion-label>
+      <ion-input type="text" [(ngModel)]="context"></ion-input>
+    </ion-item>
+    <button ion-button small (click)="translate(context, false)" *ngIf="context">Translate</button>    
+  </ion-list>
+
+  <button ion-button full class="add-btn" (click)="addWord()">{{ editing ? 'Edit' : 'Add' }}</button>
+</ion-content>

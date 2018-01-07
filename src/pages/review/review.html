@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Review</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <div *ngIf="lists">
+    <ion-list>
+      <button ion-item *ngFor="let list of lists" (click)="toReviewDetail(list.list)">
+        {{ list.list.name }}
+      </button>
+    </ion-list>
+  </div>
+</ion-content>

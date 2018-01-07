@@ -1,52 +1,36 @@
 import { Injectable } from "@angular/core";
-import { OnInit } from "@angular/core/src/metadata/lifecycle_hooks";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from 'rxjs/Observable';
-import { StorageService } from "./storage";
+import { HttpHelper } from '../helpers/httpHelper';
+import { IUser } from "../pages/user/iUser";
 
 @Injectable()
-export class UserService implements OnInit {
+export class UserService {
 
-  constructor(private http: HttpClient, private storageService: StorageService) {}
+  constructor(private http: HttpClient, private httpHelper: HttpHelper) {}
 
   private apiUrl: string = 'http://localhost:3000/api/v1/user';
-  private authHeaders = undefined;
-
-  ngOnInit(): void {
-  }
+  private headers: HttpHeaders;
+  private options: Object;
 
   getUser(id: number): Observable<any> {
-    this.populateAuthHeaders();
-    let headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
+    this.headers = this.httpHelper.getHeaders();
+    this.options = this.httpHelper.getOptions(this.headers);
 
-    if (this.authHeaders !== undefined) {
-      const { contentType, accessToken, client, expiry, tokenType, uid } = this.authHeaders;
-      headers = new HttpHeaders({
-        'Content-Type': 'applcation/json',
-        'access-token': accessToken,
-        'client': client,
-        'expiry': expiry,
-        'token-type': tokenType,
-        'uid': uid
-      });
-    }
-
-    let options: Object = { headers: headers, observe: 'response' };
-    return this.http.get(`${this.apiUrl}/${id}.json`, options);
+    return this.http.get(`${this.apiUrl}/${id}.json`, this.options);
   }
 
-  private populateAuthHeaders() {
-    if (this.storageService.getLogin() && this.storageService.getLogin().length) {
-      let data = JSON.parse(this.storageService.getLogin());
+  updateUser(body: IUser): Observable<any> {
+    this.headers = this.httpHelper.getHeaders();
+    this.options = this.httpHelper.getOptions(this.headers);
+    let params: HttpParams = new HttpParams()
+      .set('email', body.email)
+      .set('username', body.username)
+      .set('language', body.language);
 
-      this.authHeaders = {
-        accessToken: data['access-token'],
-        client: data['client'],
-        expiry: data['expiry'],
-        tokenType: data['token-type'],
-        uid: data['uid'],
-      };
-    }
+    this.options = { ...this.options, params: params };
+    
+    return this.http.put(`${this.apiUrl}/${body.id}.json`, body, this.options);
   }
 
 }

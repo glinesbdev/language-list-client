@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { IUser } from '../user/iUser';
 
 @Component({
   selector: 'page-home',
@@ -8,10 +7,8 @@ import { IUser } from '../user/iUser';
 })
 export class HomePage {
 
-  user: IUser;
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.user = navParams.get('user');
+  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  
+  ionViewDidLoad(): void {
   }
-
 }

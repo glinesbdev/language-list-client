@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{ list.name }} Review</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngFor="let item of list.items">
+    <flash-card>
+      <div class="flash-card-front">
+        {{ item.item.translation }}
+        <p class="context" *ngIf="item.item.context">{{ item.item.context }}</p>
+      </div>
+      <div class="flash-card-back">
+        <p class="word">{{ item.item.word }}</p>
+      </div>
+    </flash-card>
+  </div>
+</ion-content>
